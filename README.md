@@ -19,6 +19,11 @@
 
 ---
 
+- ### ERD
+![image](https://github.com/kawkmin/Ego-Board/assets/86940335/a17a4fd2-0759-4739-b7ba-37031b25e8af)
+
+---
+
 - ### 0.X.X 버전 목표
     - 학습한 모든 내용 담아서 구현 (이를 위해 펫과 상점 추가)
     - 단위 테스트 적용 및 Spring Rest Docs 적용
