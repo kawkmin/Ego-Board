@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class User extends BaseEntity {
 
   private static final int MAX_PASSWORD_LENGTH = 15;
-  private static final int MAX_EMAIL_ADDRESS_LENGTH = 15;
+  private static final int MAX_EMAIL_ADDRESS_LENGTH = 45;
   private static final int MAX_USERNAME_LENGTH = 15;
   private static final int MAX_NICKNAME_LENGTH = 15;
 
@@ -45,11 +45,20 @@ public class User extends BaseEntity {
   @Column(name = "nickname", nullable = false, length = MAX_NICKNAME_LENGTH)
   private String nickname;
 
+  @Embedded
+  private Address address;
+
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "pet_id")
   private Pet pet;
 
-  @Embedded
-  private Address address;
-
+  @Builder
+  public User(String username, String password, String emailAddress, String nickname,
+      Address address) {
+    this.username = username;
+    this.password = password;
+    this.emailAddress = emailAddress;
+    this.nickname = nickname;
+    this.address = address;
+  }
 }
