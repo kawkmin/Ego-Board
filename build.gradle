@@ -10,7 +10,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-    asciidoctorExt
+    asciidoctorExt //Gradle에게 asciidoctorExt 필요하다고 알림
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -26,9 +26,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //Spring Rest Docs에서 필요로하는 Asciidoctor 확장을 추가하는 데 사용
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
@@ -39,25 +41,25 @@ tasks.named('test') {
 /******* Start Spring Rest Docs *******/
 
 ext {
-    snippetsDir = file("$buildDir/generated-snippets")
+    snippetsDir = file("$buildDir/generated-snippets") //테스트에서 생성된 코드 스니펫이 저장될 디렉토리를 지정
 }
 
 test {
     useJUnitPlatform()
-    outputs.dir snippetsDir
+    outputs.dir snippetsDir //JUnit 테스트를 실행하고, 생성된 코드 스니펫을 snippetsDir 디렉토리에 출력
 }
 
-asciidoctor {
+asciidoctor { //의존성 주입된 asciidoctorExt를 설정으로, Asciidoctor를 사용하여 문서를 생성
     inputs.dir snippetsDir
     configurations 'asciidoctorExt'
     dependsOn test
 }
 
-asciidoctor.doFirst {
+asciidoctor.doFirst { //실행 전 docs 삭제
     delete file("src/main/resources/static/docs")
 }
 
-bootJar {
+bootJar { //asciidoctor 태스크가 생성한 문서 파일을 JAR 파일에 포함
     dependsOn asciidoctor
     from("${asciidoctor.outputDir}") {
         into "static/docs"
@@ -65,12 +67,13 @@ bootJar {
 }
 
 task copyDocument(type: Copy) {
+    //asciidoctor 태스크에서 생성된 Asciidoctor 소스 파일을 src/main/resources/static/docs 디렉토리로 복사
     dependsOn asciidoctor
     from file("$buildDir/docs/asciidoc")
     into file("src/main/resources/static/docs")
 }
 
-build {
+build { //빌드가 실행될 때 copyDocument 태스크가 자동으로 실행 설정
     dependsOn copyDocument
 }
 
