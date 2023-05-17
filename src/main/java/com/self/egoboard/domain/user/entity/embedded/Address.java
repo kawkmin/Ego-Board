@@ -18,17 +18,21 @@ public class Address {
   private final static String STRETT_EMPTY = "거리를 입력해주세요!";
   private final static String ZIPCODE_EMPTY = "우편번호를 입력해주세요!";
   private final static String ZIPCODE_INVALID = "우편번호는 숫자로 이뤄진, 6자리 수 입니다.";
+  private final static String CITY_INVALID = "도시는 숫자로만 이뤄지면 안됩니다.";
+  private final static String STREET_INVALID = "거리는 숫자로만 이뤄지면 안됩니다";
 
   @NotEmpty(message = CITY_EMPTY)
+  @Pattern(regexp = ".*[^0-9].*", message = CITY_INVALID)
   @Column(name = "city", nullable = false)
   private String city;
 
   @NotEmpty(message = STRETT_EMPTY)
+  @Pattern(regexp = ".*[^0-9].*", message = STREET_INVALID)
   @Column(name = "street", nullable = false)
   private String street;
 
   @NotEmpty(message = ZIPCODE_EMPTY)
-  @Pattern(regexp = "^[0-9]*${6}", message = ZIPCODE_INVALID)
+  @Pattern(regexp = "\\d{6}", message = ZIPCODE_INVALID)
   @Column(name = "zipcode", nullable = false)
   private String zipcode;
 
