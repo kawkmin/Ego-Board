@@ -12,7 +12,7 @@ public class UserTestHelper {
   @Autowired
   UserRepository userRepository;
 
-  private User generate() {
+  public User generate() {
     return this.builder().build();
   }
 
@@ -50,7 +50,7 @@ public class UserTestHelper {
 
     public User build() {
       return userRepository.save(User.builder()
-          .address(address != null ? address : new Address("도시", "거리", "집코드"))
+          .address(address != null ? address : new Address("도시1", "거리1", "123456"))
           .emailAddress(emailAddress != null ? emailAddress : "email@gmail.com")
           .password(password != null ? password : "password123")
           .username(username != null ? username : "유저이름")

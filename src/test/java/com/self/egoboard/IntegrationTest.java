@@ -4,7 +4,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-import com.self.egoboard.domain.post.dao.PostRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.self.egoboard.domain.user.UserTestHelper;
+import com.self.egoboard.domain.user.dao.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -25,13 +27,23 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @SpringBootTest
 public class IntegrationTest {
 
+  @SpyBean
+  protected UserRepository userRepository;
+
+  @SpyBean
+  protected UserTestHelper userTestHelper;
+
   @Autowired
   protected WebApplicationContext webApplicationContext;
 
   @PersistenceContext
   protected EntityManager em;
 
+  @Autowired
+  protected ObjectMapper objectMapper;
+
   protected MockMvc mockMvc;
+
 
   @BeforeEach
   protected void setUpAll(RestDocumentationContextProvider restDocumentationContextProvider) {
