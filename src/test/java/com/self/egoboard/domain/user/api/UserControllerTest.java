@@ -1,6 +1,10 @@
 package com.self.egoboard.domain.user.api;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.self.egoboard.IntegrationTest;
 import com.self.egoboard.domain.user.dto.request.UserSignUpReqDto;
@@ -14,8 +18,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 class UserControllerTest extends IntegrationTest {
 
@@ -30,9 +34,9 @@ class UserControllerTest extends IntegrationTest {
       user = userTestHelper.generate();
     }
 
-    private void mockMvcTest(UserSignUpReqDto userSignUpReqDto, ResultMatcher Created)
+    private ResultActions mockMvcTest(UserSignUpReqDto userSignUpReqDto, ResultMatcher Created)
         throws Exception {
-      mockMvc.perform(post("/api/v1/user/sign-up")
+      return mockMvc.perform(post("/api/v1/user/sign-up")
               .contentType(MediaType.APPLICATION_JSON)
               .content(objectMapper.writeValueAsString(userSignUpReqDto)))
           .andExpect(Created);
@@ -50,7 +54,17 @@ class UserControllerTest extends IntegrationTest {
           user.getAddress()
       );
 
-      mockMvcTest(userSignUpReqDto, MockMvcResultMatchers.status().isCreated());
+      mockMvcTest(userSignUpReqDto, status().isCreated())
+          .andDo(document("user-create",
+              requestFields(
+                  fieldWithPath("emailAddress").description("이메일 주소"),
+                  fieldWithPath("password").description("비밀번호"),
+                  fieldWithPath("username").description("유저 이름"),
+                  fieldWithPath("nickname").description("닉네임"),
+                  fieldWithPath("address.city").description("주소 - 도시"),
+                  fieldWithPath("address.street").description("주소 - 거리"),
+                  fieldWithPath("address.zipcode").description("주소 - 우편번호")
+              )));
     }
 
 
@@ -66,7 +80,7 @@ class UserControllerTest extends IntegrationTest {
           user.getAddress()
       );
 
-      mockMvcTest(userSignUpReqDto, MockMvcResultMatchers.status().isBadRequest());
+      mockMvcTest(userSignUpReqDto, status().isBadRequest());
     }
 
     @ParameterizedTest
@@ -81,7 +95,7 @@ class UserControllerTest extends IntegrationTest {
           user.getAddress()
       );
 
-      mockMvcTest(userSignUpReqDto, MockMvcResultMatchers.status().isBadRequest());
+      mockMvcTest(userSignUpReqDto, status().isBadRequest());
     }
 
     @ParameterizedTest
@@ -96,7 +110,7 @@ class UserControllerTest extends IntegrationTest {
           user.getAddress()
       );
 
-      mockMvcTest(userSignUpReqDto, MockMvcResultMatchers.status().isBadRequest());
+      mockMvcTest(userSignUpReqDto, status().isBadRequest());
     }
 
     @ParameterizedTest
@@ -116,7 +130,7 @@ class UserControllerTest extends IntegrationTest {
               .build()
       );
 
-      mockMvcTest(userSignUpReqDto, MockMvcResultMatchers.status().isBadRequest());
+      mockMvcTest(userSignUpReqDto, status().isBadRequest());
     }
   }
 }
