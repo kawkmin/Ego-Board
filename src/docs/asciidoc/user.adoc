@@ -1,0 +1,22 @@
+= Spring REST Docs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[resources-user]]
+== user
+
+[[resources-user-create]]
+=== user 생성
+
+==== HTTP request
+
+include::{snippets}/user-create/request-fields.adoc[]
+
+include::{snippets}/user-create/http-request.adoc[]
+
+
+==== HTTP response
+
+include::{snippets}/user-create/http-response.adoc[]
+
