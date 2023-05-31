@@ -28,6 +28,9 @@
     - 학습한 모든 내용 담아서 구현 (이를 위해 펫과 상점 추가)
     - 단위 테스트 적용 및 Spring Rest Docs 적용
     - p6spy로 쿼리 확인
+    - spring Security 적용
+    - jwt + redis 적용
+
 
 - ### 1.X.X 버전 목표
-    - spring Security 적용
+   
