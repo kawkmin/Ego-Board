@@ -1,7 +1,9 @@
 package com.self.egoboard.domain.user.api;
 
 import com.self.egoboard.domain.user.application.UserService;
+import com.self.egoboard.domain.user.dto.request.UserLoginReqDto;
 import com.self.egoboard.domain.user.dto.request.UserSignUpReqDto;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,4 +27,12 @@ public class UserController {
     userService.signUp(reqDto);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
+
+  @PostMapping("/login")
+  public ResponseEntity<Void> login(@RequestBody UserLoginReqDto reqDto) {
+
+    userService.login(reqDto);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
 }
