@@ -1,5 +1,6 @@
 package com.self.egoboard.domain.user.application;
 
+import com.self.egoboard.domain.auth.dto.AuthDto;
 import com.self.egoboard.domain.user.dao.UserRepository;
 import com.self.egoboard.domain.user.dto.request.UserLoginReqDto;
 import com.self.egoboard.domain.user.dto.request.UserSignUpReqDto;
@@ -34,7 +35,11 @@ public class UserService {
       throw new BusinessException(reqDto.password(), "loginPassword",
           ErrorCode.MEMBER_WRONG_EMAIL_ADDRESS_OR_PASSWORD);
     }
+  }
 
-
+  @Transactional
+  public void registerUser(AuthDto.SignupDto signupDto) {
+    User user = User.registerUser(signupDto);
+    userRepository.save(user);
   }
 }

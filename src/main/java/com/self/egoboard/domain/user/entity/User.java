@@ -2,6 +2,7 @@ package com.self.egoboard.domain.user.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.self.egoboard.domain.auth.dto.AuthDto;
 import com.self.egoboard.domain.pet.entity.Pet;
 import com.self.egoboard.domain.user.entity.embedded.Address;
 import com.self.egoboard.global.Entity.BaseEntity;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 public class User extends BaseEntity {
 
-  private static final int MAX_PASSWORD_LENGTH = 15;
+  private static final int MAX_PASSWORD_LENGTH = 100;
   private static final int MAX_EMAIL_ADDRESS_LENGTH = 45;
   private static final int MAX_USERNAME_LENGTH = 15;
   private static final int MAX_NICKNAME_LENGTH = 15;
@@ -35,7 +36,7 @@ public class User extends BaseEntity {
   @Column(name = "user_id", nullable = false, updatable = false)
   private Long id;
 
-  @Column(name = "username", nullable = false, length = MAX_USERNAME_LENGTH, updatable = false)
+  @Column(name = "username", nullable = true, length = MAX_USERNAME_LENGTH, updatable = false)
   private String username;
 
   @Column(name = "money", nullable = false, length = MAX_PASSWORD_LENGTH)
@@ -44,7 +45,7 @@ public class User extends BaseEntity {
   @Column(name = "email_address", nullable = false, length = MAX_EMAIL_ADDRESS_LENGTH)
   private String emailAddress;
 
-  @Column(name = "nickname", nullable = false, length = MAX_NICKNAME_LENGTH)
+  @Column(name = "nickname", nullable = true, length = MAX_NICKNAME_LENGTH)
   private String nickname;
 
   @Embedded
@@ -62,5 +63,17 @@ public class User extends BaseEntity {
     this.emailAddress = emailAddress;
     this.nickname = nickname;
     this.address = address;
+  }
+
+  public static User registerUser(AuthDto.SignupDto signupDto) {
+    User user = new User();
+
+//    user.username = signupDto.getUsername();
+    user.emailAddress = signupDto.getEmail();
+    user.password = signupDto.getPassword();
+//    user.nickname = signupDto.getNickname();
+//    user.address = signupDto.getAddress();
+
+    return user;
   }
 }

@@ -23,17 +23,17 @@ public class Address {
 
   @NotEmpty(message = CITY_EMPTY)
   @Pattern(regexp = ".*[^0-9].*", message = CITY_INVALID)
-  @Column(name = "city", nullable = false)
+  @Column(name = "city", nullable = true)
   private String city;
 
   @NotEmpty(message = STRETT_EMPTY)
   @Pattern(regexp = ".*[^0-9].*", message = STREET_INVALID)
-  @Column(name = "street", nullable = false)
+  @Column(name = "street", nullable = true)
   private String street;
 
   @NotEmpty(message = ZIPCODE_EMPTY)
   @Pattern(regexp = "\\d{6}", message = ZIPCODE_INVALID)
-  @Column(name = "zipcode", nullable = false)
+  @Column(name = "zipcode", nullable = true)
   private String zipcode;
 
   @Builder
