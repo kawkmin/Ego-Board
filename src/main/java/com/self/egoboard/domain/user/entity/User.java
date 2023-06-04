@@ -29,11 +29,16 @@ public class User extends BaseEntity {
   private static final int MAX_EMAIL_ADDRESS_LENGTH = 45;
   private static final int MAX_USERNAME_LENGTH = 15;
   private static final int MAX_NICKNAME_LENGTH = 15;
+  private static final int MAX_MONEY_LENGTH = 11;
+  private static final int START_MONEY = 0;
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
   @Column(name = "user_id", nullable = false, updatable = false)
   private Long id;
+
+  @Column(name = "money", nullable = false, length = MAX_MONEY_LENGTH)
+  private Integer money;
 
   @Column(name = "username", nullable = false, length = MAX_USERNAME_LENGTH, updatable = false)
   private String username;
@@ -58,6 +63,7 @@ public class User extends BaseEntity {
   public User(String username, String password, String emailAddress, String nickname,
       Address address) {
     this.username = username;
+    this.money = START_MONEY;
     this.password = password;
     this.emailAddress = emailAddress;
     this.nickname = nickname;
