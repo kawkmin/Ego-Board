@@ -29,4 +29,15 @@ class UserServiceTest extends IntegrationTest {
 
     Assertions.assertThat(findUser.isEmpty()).isFalse();
   }
+
+  @Test
+  @DisplayName("유저의 돈이 0원으로 생성이된다.")
+  void should_zeroMoney_when_createUser() {
+    em.flush();
+    em.clear();
+
+    Optional<User> findUser = userRepository.findById(user.getId());
+
+    Assertions.assertThat(findUser.get().getMoney()).isEqualTo(0);
+  }
 }
